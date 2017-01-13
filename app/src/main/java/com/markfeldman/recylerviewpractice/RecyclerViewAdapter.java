@@ -13,7 +13,19 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private String[] names;
     private Integer[] logos;
 
-    public class RecyclerViewAdapterViewHolder extends RecyclerView.ViewHolder {
+    private ClickedListener clickedListener;
+
+    public interface ClickedListener{
+        void onClicked(int clickedItemIndex);
+    }
+
+    public RecyclerViewAdapter(ClickedListener listener,String[] names, Integer[] logos){
+        this.clickedListener = listener;
+        this.names = names;
+        this.logos = logos;
+    }
+
+    public class RecyclerViewAdapterViewHolder extends RecyclerView.ViewHolder  {
         public final TextView names;
         public final ImageView logos;
 
@@ -21,12 +33,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             names = (TextView)itemView.findViewById(R.id.teamName);
             logos = (ImageView)itemView.findViewById(R.id.teamLogo);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int adapterPosition = getAdapterPosition();
+                    clickedListener.onClicked(adapterPosition);
+                }
+            });
         }
-    }
 
-    public RecyclerViewAdapter(String[] names, Integer[] logos){
-        this.names = names;
-        this.logos = logos;
+
     }
 
     @Override

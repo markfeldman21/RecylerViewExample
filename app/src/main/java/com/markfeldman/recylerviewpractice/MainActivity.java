@@ -6,8 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.ClickedListener {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private String[] names = {"Bruins", "Canadiens", "BlackHawks","Maple Leafs","Rangers","Red Wings"};
@@ -22,9 +23,14 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        recyclerViewAdapter = new RecyclerViewAdapter(names,logos);
+        recyclerViewAdapter = new RecyclerViewAdapter(this,names,logos);
         recyclerView.setAdapter(recyclerViewAdapter);
 
 
+    }
+
+    @Override
+    public void onClicked(int clickedItemIndex) {
+        Toast.makeText(this,"POSITION = " + clickedItemIndex,Toast.LENGTH_LONG).show();
     }
 }
